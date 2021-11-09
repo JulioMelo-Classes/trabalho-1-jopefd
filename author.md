@@ -2,8 +2,10 @@
 
 Preencha os dados abaixo para identificar a autoria do trabalho.
 
-- Nome: *\<insira seu nome aqui>*
-- Email: *\<insira seu email aqui>*
-- Turma: *\<insira sua turma aqui>*
+- Nome: João Pedro F. Dantas
+- Email: joao.pedro.fonseca.017@ufrn.edu.br
+- Turma: T01
 
-Repita os campos Nome e Email caso seja uma dupla
+- Nome: Caroline Dantas
+- Email:
+- Turma: T01
