@@ -1,6 +1,9 @@
 #include "forca.hpp"
 
+using std::count;
+using std::find_if;
 using std::ifstream;
+using std::isdigit;
 using std::pair;
 using std::string;
 using std::stringstream;
@@ -12,28 +15,69 @@ Forca::Forca(const string &nome_arquivo_palavras,
       dificuldade_(kDificuldadePadrao),
       tentativas_restantes_(kTentativasRestantesPadrao) {}
 
-pair<bool, string> Forca::EhValido() const {
-    ifstream arquivo_palavras(nome_arquivo_palavras_);
+pair<bool, string> Forca::EhValido() {
+    ifstream arquivo_palavras(nome_arquivo_palavras_) const;
     ifstream arquivo_scores(nome_arquivo_scores_);
-    bool okay = false;
 
-    if (arquivo_palavras.is_open() and arquivo_scores.is_open()) okay = true;
+    if (not arquivo_palavras.is_open() and not arquivo_scores.is_open())
+        return pair<bool, string>{false,
+                                  "Um dos arquivos não pode ser aberto."};
+
+    string linha;
+
+    while (getline(arquivo_palavras, linha)) {
+        stringstream ss;
+        string palavra;
+        string ocorrencias;
+
+        ss << linha;
+        ss >> palavra;
+        ss >> ocorrencias;
+
+        Erro erro = kSemErro;
+
+        if (any_of(palavra.begin(), palavra.end(), [](const char &c) {
+                return (c <= 'A' && 'Z' <= c) && (c <= 'a' && 'z' <= c) &&
+                       (c != '-');
+            }))
+            erro = kCaracterInvalido;
+
+        if (any_of(ocorrencias.begin(), ocorrencias.end(),
+                   [](const char &c) { return !isdigit(c); }) ||
+            ocorrencias[0] == '-')
+            erro = kFrequenciaInvalida;
+
+        if (palavra.length() < kTamanhoMinimoPalavra)
+            erro = kTamanhoPalavraInvalido;
+
+        if (erro != kSemErro)
+            return pair<bool, string>{false, kMensagensErros[erro]};
+    }
+
+    while (getline(arquivo_scores, linha)) {
+        stringstream ss;
+        string score;
+
+        ss >> score;
+
+        Erro erro = kSemErro;
+
+        if (count(score.begin(), score.end(), ';') > kNumMaxPontoVirgula)
+            erro = kPontoVirgula;
+
+        if ()
+    }
 
     arquivo_palavras.close();
     arquivo_scores.close();
-
-    if (okay) return pair<bool, string>{true, ""};
-    return pair<bool, string>{false, "Um dos arquivos não pode ser aberto."};
 }
 
 void Forca::CarregaArquivos() {
     ifstream arquivo_palavras(nome_arquivo_palavras_);
     ifstream arquivo_scores(nome_arquivo_scores_);
 
-    if (not arquivo_palavras.is_open() and not arquivo_scores.is_open()) return;
-
     string linha;
-    
+
     while (getline(arquivo_palavras, linha)) {
         stringstream ss;
         string palavra;
@@ -43,13 +87,12 @@ void Forca::CarregaArquivos() {
         ss >> palavra;
         ss >> ocorrencias;
 
-        palavras_ocorrencias_.push_back(pair<string, int>{palavra, ocorrencias});
+        palavras_ocorrencias_.push_back(
+            pair<string, int>{palavra, ocorrencias});
     }
 
     while (getline(arquivo_scores, linha)) {
-        
     }
-
 }
 
 void Forca::set_dificuldade(const Dificuldade &dificuldade) {

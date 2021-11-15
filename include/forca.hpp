@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -6,6 +7,28 @@
 class Forca {
    public:
     enum Dificuldade { kFacil, kMedio, kDificil };
+    enum Erro {
+        kSemErro,
+        kCaracterInvalido,
+        kFrequenciaInvalida,
+        kTamanhoPalavraInvalido,
+        kPontoVirgula,
+        kSemDificuldade,
+        kSemNome,
+        kSemPontuacao
+    };
+    const std::vector<std::string> kMensagensErros = {
+        "Palavras com caracteres que não estejam entre [a - z] ou [A - Z] ou "
+        "hífen ‘-’",
+        "Palavras que não tenham sua frequência correspondente, ou a "
+        "frequência não seja um número inteiro positivo.",
+        "Palavras com tamanho menor ou do que 4.",
+        "Presença de mais de 3 “;” em alguma linha",
+        "Campo 'nível de dificuldade' vazio",
+        "Campo “nome” vazio",
+        "Campo “pontuação” vazio"};
+    const int kTamanhoMinimoPalavra = 4;
+    const int kNumMaxPontoVirgula = 3;
     const Dificuldade kDificuldadePadrao = Dificuldade::kFacil;
     const int kTentativasRestantesPadrao = 6;
 
@@ -53,13 +76,13 @@ class Forca {
 
     /**
      * Carrega os arquivos de scores e palavras preenchendo **ao menos** a
-     * estrutura palavras_
+     * estrutura palavras_ocorrencias_
      */
     void CarregaArquivos();
 
     /**
      * Modifica a dificuldade do jogo.
-     * De acordo com a dificuldade configurada, o método proxima_palavra
+     * De acordo com a dificuldade configurada, o método ProximaPalavra
      * retornará palavras diferentes.
      *
      * \param d a dificuldade desejada
