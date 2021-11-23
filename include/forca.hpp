@@ -1,12 +1,16 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <random>
+#include <regex>
 #include <sstream>
+#include <string>
 #include <vector>
 
 class Forca {
    public:
     enum Dificuldade { kFacil, kMedio, kDificil };
+
     enum Erro {
         kSemErro,
         kCaracterInvalido,
@@ -17,31 +21,52 @@ class Forca {
         kSemNome,
         kSemPontuacao
     };
+
+    enum Campo { kDificuldade, kNome, kPalavras, kPontuacao };
+
+    enum Opcao { kNovoJogo, kVerScores, kVoltar };
+
     const std::vector<std::string> kMensagensErros = {
-        "Palavras com caracteres que não estejam entre [a - z] ou [A - Z] ou "
-        "hífen ‘-’",
+        "Sem erro",
+        "Palavras com caracteres que não estejam entre [a - z] ou [A - Z] "
+        "ou "
+        "hífen \"-\"",
         "Palavras que não tenham sua frequência correspondente, ou a "
         "frequência não seja um número inteiro positivo.",
         "Palavras com tamanho menor ou do que 4.",
-        "Presença de mais de 3 “;” em alguma linha",
-        "Campo 'nível de dificuldade' vazio",
-        "Campo “nome” vazio",
-        "Campo “pontuação” vazio"};
+        "Presença de mais de 3 \";\" em alguma linha",
+        "Campo \"nível de dificuldade\" vazio",
+        "Campo \"nome\" vazio",
+        "Campo \"pontuação\" vazio"};
+
     const int kTamanhoMinimoPalavra = 4;
+
     const int kNumMaxPontoVirgula = 3;
+
     const Dificuldade kDificuldadePadrao = Dificuldade::kFacil;
+
     const int kTentativasRestantesPadrao = 6;
 
    private:
-    // TODO: armazenar os scores?
-
     std::vector<std::pair<std::string, int>> palavras_ocorrencias_;
-    std::vector<std::string> scores_;
+
+    std::vector<std::string> palavras_faceis_;
+
+    std::vector<std::string> palavras_dificeis_;
+
+    std::vector<std::string> palavras_sorteadas_;
+
     std::string nome_arquivo_scores_;
+
     std::string nome_arquivo_palavras_;
+
     Dificuldade dificuldade_;
+
     std::string palavra_atual_;
+
     int tentativas_restantes_;
+
+    double frequencia_media_;
 
    public:
     /**
@@ -104,6 +129,13 @@ class Forca {
     std::string ProximaPalavra();
 
     /**
+     * \brief Sorteia e preenche palavras_sorteadas_ de acordo com a dificuldade
+     * selecionada.
+     *
+     */
+    void SortearPalavras();
+
+    /**
      * Retorna a palavra atual que está sendo jogada.
      *
      * \return o valor do atributo palavra_atual_.
@@ -142,4 +174,11 @@ class Forca {
      * \return a quantidade de tentativas restantes.
      */
     int get_tentativas_restantes() const;
+
+    /**
+     * \brief Get das palavras sorteadas
+     * 
+     * \return string Palavras sorteadas
+     */
+    std::vector<std::string> get_palavras_sorteadas() const;
 };
