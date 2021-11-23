@@ -45,6 +45,8 @@ int main(int argc, char *argv[]) {
         const Forca::Opcao opcao = static_cast<Forca::Opcao>(aux - 1);
 
         if (opcao == Forca::Opcao::kNovoJogo) {
+            system("clear");
+
             int aux = -1;
             while (aux != 1 and aux != 2 and aux != 3) {
                 cout << "Por favor, escolha um nível:" << endl
@@ -56,19 +58,19 @@ int main(int argc, char *argv[]) {
             }
 
             forca.set_dificuldade(static_cast<Forca::Dificuldade>(aux - 1));
-            forca.SortearPalavras();
+            // forca.SortearPalavras();
 
-            while (not forca.get_palavras_sorteadas().empty() and
-                   not forca.GameOver()) {
-                cout << "Você consegue adivinhar essa palavra?" << endl;
-                string palavra_camuflada = forca.ProximaPalavra();
+            // while (not forca.get_palavras_sorteadas().empty() and
+            //        not forca.GameOver()) {
+            //     cout << "Você consegue adivinhar essa palavra?" << endl;
+            //     string palavra_camuflada = forca.ProximaPalavra();
                 
-                while (not forca.GameOver()) {
-                    string aux;
-                    cin >> aux;
-                    forca.Palpite(aux);
-                }
-            }
+            //     while (not forca.GameOver()) {
+            //         string aux;
+            //         cin >> aux;
+            //         forca.Palpite(aux);
+            //     }
+            // }
         } else if (opcao == Forca::Opcao::kVerScores) {
             system("clear");
 
@@ -81,7 +83,7 @@ int main(int argc, char *argv[]) {
                  << endl;
 
             int aux = -1;
-            while (static_cast<Forca::Opcao>(aux) != Forca::Opcao::kVoltar)
+            while (static_cast<Forca::Opcao>(aux - 1) != Forca::Opcao::kVoltar)
                 cin >> aux;
 
             continue;

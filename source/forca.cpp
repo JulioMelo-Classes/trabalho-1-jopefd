@@ -93,8 +93,6 @@ pair<bool, string> Forca::EhValido() const {
             }
         }
 
-        std::cout << erro << std::endl;
-
         if (erro != kSemErro)
             return pair<bool, string>{false, kMensagensErros[erro]};
     }
@@ -143,13 +141,13 @@ string Forca::ProximaPalavra() {
     palavra_atual_ = palavras_sorteadas_.front();
     palavras_sorteadas_.erase(palavras_sorteadas_.begin());
     
-    string consoantes = "bcdfghjklmnpqrstvxwyz";
+    // string consoantes = "bcdfghjklmnpqrstvxwyz";
 
-    string palavra_camuflada = palavra_atual_;
-    if (dificuldade_ == kFacil)
-        palavra_camuflada = regex_replace(palavra_camuflada, regex("b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|x|w|y|z"), "_");
-    else if (dificuldade_ == kMedio)
-    else if (dificuldade_ == kDificil)
+    // string palavra_camuflada = palavra_atual_;
+    // if (dificuldade_ == kFacil)
+    //     palavra_camuflada = regex_replace(palavra_camuflada, regex("b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|x|w|y|z"), "_");
+    // else if (dificuldade_ == kMedio)
+    // else if (dificuldade_ == kDificil)
 
     
 
@@ -157,38 +155,38 @@ string Forca::ProximaPalavra() {
 }
 
 void Forca::SortearPalavras() {
-    if (dificuldade_ == kFacil) {
-        palavras_sorteadas_ = palavras_faceis_;
-        shuffle(palavras_sorteadas_.begin(), palavras_sorteadas_.end(),
-                default_random_engine{random_device()});
-    } else if (dificuldade_ == kMedio) {
-        vector<string> palavras_sorteadas;
-        vector<string> palavras_faceis = palavras_faceis_;
+    // if (dificuldade_ == kFacil) {
+    //     palavras_sorteadas_ = palavras_faceis_;
+    //     shuffle(palavras_sorteadas_.begin(), palavras_sorteadas_.end(),
+    //             default_random_engine{random_device()});
+    // } else if (dificuldade_ == kMedio) {
+    //     vector<string> palavras_sorteadas;
+    //     vector<string> palavras_faceis = palavras_faceis_;
 
-        shuffle(palavras_dificeis_.begin(), palavras_dificeis_.end(),
-                default_random_engine{random_device()});
+    //     shuffle(palavras_dificeis_.begin(), palavras_dificeis_.end(),
+    //             default_random_engine{random_device()});
 
-        for_each(palavras_dificeis_.begin(), palavras_dificeis_.end(),
-                 [&palavras_sorteadas, &palavras_faceis](const string &p) {
-                     palavras_sorteadas.push_back(p);
+    //     for_each(palavras_dificeis_.begin(), palavras_dificeis_.end(),
+    //              [&palavras_sorteadas, &palavras_faceis](const string &p) {
+    //                  palavras_sorteadas.push_back(p);
 
-                     for (int i = 0; i < 2; i++) {
-                         string complemento;
-                         sample(palavras_faceis.begin(), palavras_faceis.end(),
-                                complemento, 1, mt19937{random_device{}()});
-                         palavras_sorteadas.push_back(complemento);
-                         palavras_faceis.erase(find(palavras_faceis.begin(),
-                                                    palavras_faceis.end(),
-                                                    complemento));
-                     }
-                 });
+    //                  for (int i = 0; i < 2; i++) {
+    //                      string complemento;
+    //                      sample(palavras_faceis.begin(), palavras_faceis.end(),
+    //                             complemento, 1, mt19937{random_device{}()});
+    //                      palavras_sorteadas.push_back(complemento);
+    //                      palavras_faceis.erase(find(palavras_faceis.begin(),
+    //                                                 palavras_faceis.end(),
+    //                                                 complemento));
+    //                  }
+    //              });
 
-        palavras_sorteadas_ = palavras_sorteadas;
-    } else if (dificuldade_ == kDificil) {
-        palavras_sorteadas_ = palavras_dificeis_;
-        shuffle(palavras_sorteadas_.begin(), palavras_sorteadas_.end(),
-                default_random_engine{random_device()});
-    }
+    //     palavras_sorteadas_ = palavras_sorteadas;
+    // } else if (dificuldade_ == kDificil) {
+    //     palavras_sorteadas_ = palavras_dificeis_;
+    //     shuffle(palavras_sorteadas_.begin(), palavras_sorteadas_.end(),
+    //             default_random_engine{random_device()});
+    // }
 }
 
 string Forca::get_palavra_atual() const { return palavra_atual_; }
