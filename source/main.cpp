@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     pair<bool, string> teste = forca.EhValido();
     if (not teste.first) {
         // system("clear");
-        cout << "\e[1mERRO:\e[0m " << teste.second << endl;
+        cout << "\033[1mERRO:\033[0m " << teste.second << endl;
         return EXIT_FAILURE;
     }
 
@@ -26,13 +26,13 @@ int main(int argc, char *argv[]) {
     while (true) {
         system("clear");
 
-        cout << "\e[1m"
+        cout << "\033[1m"
              << "###### ###### ###### ###### ######\n"
                 "##     ##  ## ##  ## ##     ##  ##\n"
                 "####   ##  ## ####   ##     ######\n"
                 "##     ##  ## ## ##  ##     ##  ##\n"
                 "##     ###### ##  ## ###### ##  ##\n"
-             << "\e[0m" << endl
+             << "\033[0m" << endl
              << "Por favor, selecione uma opção:" << endl
              << "   (1) Iniciar novo jogo" << endl
              << "   (2) Ver scores anteriores" << endl
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
         } else if (opcao == Forca::Opcao::kVerScores) {
             system("clear");
 
-            cout << "\e[1mARQUIVO DE SCORES\e[0m" << endl
+            cout << "\033[1mARQUIVO DE SCORES\033[0m" << endl
                  << endl
                  << arquivo_scores.rdbuf() << endl
                  << endl
